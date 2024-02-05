@@ -1,0 +1,715 @@
+ /* *{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+   }  */
+
+
+   section {
+    width: 100%;
+   
+background-color: red;
+    position: fixed;
+    /* position: relative; */
+    height: 100vh;
+    /* height:auto; */
+    background: linear-gradient(to right, #017ff4e8, #ff6699) !important;
+
+    /* #0084ffc5 Adjust color codes as needed */
+}
+
+.form-container{
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: #FFFFFF;
+   
+    /* background-image: url('Vector.png') ; */
+    border:1px solid #FFFFFF;
+    border-radius:20px;
+    width:400px;
+    height:420px;
+    padding:20px;
+    display: block;
+   
+}
+label{
+    font-size:14px;
+ }
+
+ .Email-icon{
+    position:absolute;
+     top: 50%;
+     left:12px; 
+     transform:translateY(-50%);
+          width:28px;
+     height:28px;
+     }
+.password-icon{
+    position:absolute;
+     top: 50%;
+     left:12px; 
+     transform:translateY(-50%);
+     width:28px;
+     height:28px;
+    } 
+   
+
+ .control input{
+    width:85%;
+    display: block; 
+   padding:15px 15px 15px 52px; 
+    border-radius:8px;
+     background-color: #f8f8f8;
+    
+     /* #F8F8F8; */
+    outline:none;
+    border:none;
+    margin:8px 0 0 0;   
+  }
+  .control{
+      position:relative;
+      width:100%;
+      
+  }
+  
+ .controls{
+  color:#000000;
+  margin-top:10px ;
+
+
+  font-size: 14px;
+ }
+ .donthaveanaccounttext{
+    text-align:center;
+    color:#979797;
+    font-size: 12px;
+     
+}
+/* YourComponent.css */
+
+input::placeholder {
+    color: #B7B7B7 !important; 
+    /* Change the color to your desired value */
+  }
+  
+ /* ::placeholder {
+    color:#B7B7B7;
+  } */
+  .forgot-password{
+        
+    color:#979797;
+    font-size: 12px;
+    text-decoration: none;
+ }
+
+.div-forgot-password{
+    text-align: right;
+    margin-right: 5px;
+    margin-top: 5px;
+ }
+
+.images{
+    display:block;  
+       width:25%; 
+       align-items: center; 
+       margin:0 auto 20px auto; 
+ }
+ 
+ 
+.control{
+    position:relative;
+    width:100%;
+    margin-top: 5px;
+  
+    }
+    .form-input{
+        border:2px solid grey;
+     outline:none;
+        background-color: #FFFFFF;
+       width:100%;
+        padding:10px;
+        margin-top: 10px;
+    }
+     .textone{
+        position:absolute;
+     top:20px;
+     left:1.4rem;
+        cursor:text;
+        transition: top .3s ease-in-out;
+        background:#FFFFFF;
+     
+     
+       
+        /* background-image: url('Vector.png') ; */
+      
+     }
+    
+    
+    .form-input:focus ~ .textone ,.form-input:not(:placeholder-shown).form-input:not(:focus) ~ .textone{
+        top: 0.20rem;
+       left:0.5rem;
+        font-size:12px ;
+         }
+
+     .link1{
+        text-align: right;
+        color:#979797;
+        font-size: 12px;
+     }
+     .login{
+    background-color:  #017ff4f3;
+    color:white;
+    display:block; 
+       width:50%;   
+       margin:30px  auto 20px auto; 
+    padding:12px 28px; 
+     align-items: center; 
+    border: none;
+    outline: none;
+    border-radius:10px;
+    font-size: 12px;
+     }
+  .textthree{
+    cursor: pointer;
+    text-align:center;
+        color:#979797;
+        font-size: 10px;
+    }
+
+.signup{
+    background-color:#FFFFFF;
+    color:#017ff4e8;
+    display:block; 
+       width:45%;   
+     margin:10px  auto 15px auto; 
+    padding:12px 30px; 
+     align-items: center; 
+     border: none; 
+    outline: none;
+    border-radius:10px;
+     border:1px solid #017ff4e8; 
+    font-size: 12px;
+}
+
+@media (max-width:700px){
+    .form-container{
+        width:80%;
+       
+    }
+    .control input{
+        width:80%;
+        display: block; 
+       padding:15px 15px 15px 52px; 
+        border-radius:8px;
+         background-color: #f8f8f8;
+        
+         /* #F8F8F8; */
+        outline:none;
+        border:none;
+        margin:8px 0 0 0;   
+      }
+}
+
+/* user sign up style section*/
+.form-containers{
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: #FFFFFF;
+    border:1px solid #FFFFFF;
+    border-radius:20px;
+    width:420px;
+
+    padding:20px;
+
+    
+}
+@media (max-width:700px){
+    .form-containers{
+        width:80%;
+    }
+}
+
+.signupbuttons{
+    display:block;
+    position:relative;
+}
+
+.signupBTN{
+    background-color: #0469E3;
+    color:white;
+    
+    display:block; 
+    width:45%;   
+    margin:25px  auto 15px auto; 
+    padding:12px 30px; 
+    align-items: center; 
+    border: none; 
+    outline: none;
+    border-radius:10px;
+    font-size: 14px;
+    cursor: pointer;
+
+}
+
+.controlSIGNUP{
+    position:relative;
+    width:100%;
+
+}
+
+.loginSIGNUP{
+    background-color:#FFFFFF;
+    color:#0469E3;
+    display:block; 
+    width:45%;   
+    margin:10px  auto 5px auto; 
+    padding:12px 30px; 
+    align-items: center; 
+    border: none; 
+    outline: none;
+    border-radius:10px
+    
+    
+    ;
+    border:1px solid #0469E3; 
+    font-size: 14px;
+    cursor: pointer;
+
+}
+
+
+/* .Spinner{
+    display: flex;
+    height: 500px;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(2px);
+} */
+
+.Spinner{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(220, 241, 245);
+    
+}
+
+
+.reset-password-form-container{
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: #FFFFFF;
+    border:1px solid #FFFFFF;
+    border-radius:8px;
+    width: 39%;
+    height:50%;
+   padding: 20px;
+    box-shadow: 1px 1px 1px 0px rgb(207, 202, 202);
+}
+
+.resetpass-input-control{
+    position:relative;
+    width:100%;
+    
+}
+
+.otptext{
+    color:#979797;
+    font-size: 14px;
+    text-align: center;
+    margin:2px;
+}
+
+.resetpass-input-control input{
+
+    width:70%;
+    display: block;
+    margin-left: 16%; 
+    padding: 15px  15px  15px 50px;
+    margin: 50px  auto 20px auto; 
+
+    border-radius:5px;
+    background-color: #F8F8F8;
+    outline:none;
+    border:none;
+      /* margin:1em 0 0 0;   */
+  }
+
+.PasswordResetFormSendBTN{
+        
+        background-color:#0469E3;
+        color:white;
+        display:block; 
+        width:45%;   
+        margin:10px  auto 5px auto; 
+        padding:12px 30px; 
+        align-items: center; 
+        border: none; 
+        outline: none;
+        border-radius:10px;
+        border:1px solid #0469E3; 
+        font-size: 10px;
+        cursor: pointer;
+        font-size:14px ;
+}
+
+
+
+.resetpass-title{
+
+    margin: 12px auto 15px auto;
+    text-align: center;
+    color: #1b1c1d;
+    /* font-family: 'Inter', sans-serif; */
+    font-size: 30px;
+    opacity: 0.7;
+
+}
+
+
+.resetPassword-controls{
+  color:#979797;
+  margin-top:35px ;
+  font-size: 14px;
+}
+
+
+.reset-pass-Email-icon{
+    position:absolute;
+    top: 55%;
+    left:18%; 
+    transform:translateY(-60%);
+    width:20px;
+}
+
+.PasswordResetForm{
+    display:block;
+    position:relative;
+}
+
+
+
+/* eyeicons */
+.newpassword-show-icon{
+    position:absolute;
+         top: 50%;
+         left:85%;
+         /* left:380px;  */
+         transform:translateY(-50%);
+         /* width:16px; */
+}
+.password-show-icon{
+    position:absolute;
+         top: 50%;
+         left:90%;
+         /* left:380px;  */
+         transform:translateY(-50%);
+         /* width:16px; */
+}
+
+.newpassword-show-icon-two{
+    position:absolute;
+         top: 50%;
+         left:90%;
+         /* left:380px;  */
+         transform:translateY(-50%);
+       height:30px;
+       width:30px;
+       object-fit: contain;
+}
+.password-show-icon-two{
+    position:absolute;
+         top: 50%;
+         left:88%;
+         /* left:380px;  */
+         transform:translateY(-50%);
+         height:30px;
+         width:30px;
+         object-fit: contain;
+        
+}
+
+
+.confirmpassword-show-icon{
+    position: absolute;
+    top: 50%;
+    left:380px; 
+    transform:translateY(-50%);
+    width:16px;
+}
+
+ .resendbtn{
+
+    cursor: pointer;
+    color: #0469E3;
+ margin: 10px;
+
+} 
+.expires-texts{
+    text-align:left;
+    margin:5px;
+}
+
+
+
+.enterOtpText{
+    color: #979797;
+   font-size: 14px;
+   padding-bottom:8px ;
+   display: block;
+   
+}
+
+
+.otpDiv{
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+}
+
+
+.theOtpForm{
+    /* margin: 30px 20px 30px 40px; */
+    padding: 20px;
+}
+
+.theOtpPopupmsg{
+    color: green;
+    text-align: center;
+    
+}
+
+.resetBTN{
+   
+    background-color: #0469E3;
+    color:white;
+    
+    display:block; 
+    width:45%;   
+    margin:10px  auto 15px auto; 
+    padding:12px 30px; 
+    align-items: center; 
+    border: none; 
+    outline: none;
+    border-radius:10px;
+     font-size: 14px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-top:40px;
+    
+}
+
+
+
+/*  signin otp verification */
+
+.signin-otp-verify-form-container{
+
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: #FFFFFF;
+    border:1px solid #FFFFFF;
+    border-radius:8px;
+    width: 35%;
+    height:60%;
+
+    padding: 20px;
+    box-shadow: 1px 1px 1px 0px rgb(207, 202, 202);
+}
+
+.resendbtnSIGNIN{
+
+    cursor: pointer;
+    color: #0469E3;
+    text-align: center;
+}
+
+.SideBySide{
+  /* padding: 8px; */
+
+}
+
+.float-child {
+    width: 40%;
+    float: left;
+    padding: 8px;
+    /* background-color: #0469E3; */
+   
+} 
+
+.float-child input{
+    width:100%;
+    display: block;
+    padding: 15px  15px  15px 50px;
+    margin: 10px  auto 20px auto; 
+
+    border-radius:5px;
+    background-color: #F8F8F8;
+    outline:none;
+    border:none; 
+}
+
+.float-child select{
+    width:155%;
+    display: block;
+    padding: 15px  15px  15px 20px;
+    
+
+    border-radius:5px;
+    background-color: #F8F8F8;
+    outline:none;
+    border:none; 
+}
+
+
+
+
+.signin-otpDiv{
+    display: flex;
+    position: relative;
+    top: 50%;
+    left: 18%;
+    margin: 10px 20px 30px 22px;    
+}
+
+.enterotp-text-controls{
+    color:#979797;
+    text-align: center;
+    font-size: 14px;
+}
+
+.controlOTPVERIFICATION{
+    position: relative;
+    width:100%;
+    text-align: center;
+}
+
+
+.expires-text{
+    text-align: center;
+    margin: 20px;
+}
+
+
+.enterprise-form-container{
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: #FFFFFF;
+    border:1px solid #FFFFFF;
+    border-radius:20px;
+    width:500px;
+    height:950px;
+    padding:20px;
+}
+
+.enterprise-form-container input{
+
+}
+
+
+.enterprise-section{
+    width: 100%;
+    position:relative;
+    height:200vh;
+    background-color:  #F8F8F8;
+}
+
+.pincode-email-input{
+
+    top: 0px;
+
+}
+
+.city-select{
+    width: 100%;
+    display: block;
+    padding: 15px  15px  15px 50px;
+    margin-top:0px ; 
+    background-color: #F8F8F8;
+    outline:none;
+    border:none; 
+
+}
+
+
+
+@media (max-width:700){
+    
+
+    .reset-password-form-container{
+        width:100%;
+    }
+  
+}
+
+
+
+
+
+
+/* forgot password css */
+
+
+.form-container-forgotpassworddiv{
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: #FFFFFF;
+   
+    /* background-image: url('Vector.png') ; */
+    border:1px solid #FFFFFF;
+    border-radius:20px;
+    width:400px;
+    height:300px;
+    padding:20px;
+    display: block;
+   
+}
+
+@media (max-width:700px){
+    .form-container-forgotpassworddiv{
+        width:80%;
+    }
+}
+
+
+/* reset password css */
+
+
+
+.form-containers-resetpassword{
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: #FFFFFF;
+   
+    /* background-image: url('Vector.png') ; */
+    border:1px solid #FFFFFF;
+    border-radius:20px;
+    width:400px;
+    height:330px;
+    padding:20px;
+    display: block;
+   
+}
+
+@media (max-width:700px){
+    .form-containers-resetpassword{
+        width:80%;
+    }
+}
