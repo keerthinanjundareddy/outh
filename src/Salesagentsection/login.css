@@ -28,9 +28,10 @@ background-color: red;
     /* background-image: url('Vector.png') ; */
     border:1px solid #FFFFFF;
     border-radius:20px;
-    width:400px;
-    height:420px;
+    width:390px;
+    height:410px;
     padding:20px;
+   
     display: block;
    
 }
@@ -84,7 +85,7 @@ label{
  .donthaveanaccounttext{
     text-align:center;
     color:#979797;
-    font-size: 12px;
+    font-size: 11px;
      
 }
 /* YourComponent.css */
@@ -162,7 +163,7 @@ input::placeholder {
     background-color:  #017ff4f3;
     color:white;
     display:block; 
-       width:50%;   
+       width:45%;   
        margin:30px  auto 20px auto; 
     padding:12px 28px; 
      align-items: center; 
@@ -183,8 +184,8 @@ input::placeholder {
     color:#017ff4e8;
     display:block; 
        width:45%;   
-     margin:10px  auto 15px auto; 
-    padding:12px 30px; 
+       margin:10px  auto 25px auto; 
+       padding:11px 28px; 
      align-items: center; 
      border: none; 
     outline: none;
@@ -222,6 +223,7 @@ input::placeholder {
     border:1px solid #FFFFFF;
     border-radius:20px;
     width:420px;
+    height:460px;
 
     padding:20px;
 
@@ -239,7 +241,7 @@ input::placeholder {
 }
 
 .signupBTN{
-    background-color: #0469E3;
+    background-color:  #017ff4f3;
     color:white;
     
     display:block; 
@@ -263,7 +265,7 @@ input::placeholder {
 
 .loginSIGNUP{
     background-color:#FFFFFF;
-    color:#0469E3;
+    color: #017ff4f3;;
     display:block; 
     width:45%;   
     margin:10px  auto 5px auto; 
@@ -271,11 +273,8 @@ input::placeholder {
     align-items: center; 
     border: none; 
     outline: none;
-    border-radius:10px
-    
-    
-    ;
-    border:1px solid #0469E3; 
+    border-radius:10px;
+    border:1px solid  #017ff4f3;; 
     font-size: 14px;
     cursor: pointer;
 

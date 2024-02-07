@@ -1,66 +1,77 @@
-import React from 'react'
-import Email from '../Assets/email 1 (1).png';
+import React, { useState } from 'react';
+import Emails from '../Assets/email 1 (1).png';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-function Forgotpassword() {
+function Forgotpassword({ setEmailVerified }) {
+  const [email, setEmail] = useState('');
+  const [userId, setUserId] = useState(null); // State to store the received user ID
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    let item = { email };
+
+    const headerObject = {
+      'Content-Type': 'application/json',
+      'Accept': '*/*',
+    };
+
+    const forgotPasswordApi = 'https://chat-bot-taupe-one.vercel.app/auth/forgot-password';
+
+    axios
+      .post(forgotPasswordApi, item, { headers: headerObject })
+      .then((res) => {
+        window.alert(res.data.message);
+        setUserId(res.data.userID); 
+        console.log("userid", res.data.userID); // Save the received user ID in state
+
+        // Set emailVerified to true after successful email verification
+        setEmailVerified(true);
+
+        navigate(`/resetpassword/${res.data.userID}`); // Navigate to the reset password screen
+      })
+      .catch((err) => {
+        console.log("errors", err);
+        window.alert("Please enter a valid email");
+      });
+  };
+
   return (
     <div>
       <section>
         <div className="form-container-forgotpassworddiv">
-          {/* <img className="images" src={image} alt="mdm-logo" /> */}
           <form>
-            <h3 style={{textAlign:"left"}}>FORGOT PASSWORD?</h3>
-            <div style={{textAlign:"left",color:"grey"}}>Enter your registered email id to reset the password</div>
-            <div className="controls" style={{marginTop:"30px"}}>
+            <h3 style={{ textAlign: "center" }}>FORGOT PASSWORD?</h3>
+            <div style={{ textAlign: "left", color: "grey", marginTop: "30px" }}>Enter your registered email id to reset the password</div>
+            <div className="controls" style={{ marginTop: "20px" }}>
               <label className="emailtext">Email id</label>
             </div>
             <div className="control">
               <input
                 type="email"
                 className="email-input"
-                style={{width:"80%"}}
+                style={{ width: "80%" }}
                 placeholder="Enter Your Email id"
-                // value={email}
-                // onChange={(e) => {
-                //   setLogin(e.target.value);
-                // }}
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
               />
-              <img src={Email} alt="padlock" className="Email-icon" />
+              <img src={Emails} alt="padlock" className="Email-icon" />
             </div>
 
-            {/* <div className="controls">
-              <label className="texttwo">Password</label>
-            </div> */}
-            <div className='control'>
-                {/* <input type={icon?("password"):("text")}className='password-input'  style={{width:"99%"}} placeholder="Enter Your Password" value={password} onChange={(e) => {setPassword(e.target.value)}} /> */}
-               
-                {/* <img src={vector}  alt="padlock" className='password-icon' /> */}
-                
-                {/* <span className='password-show-icon' alt="padlock"  onClick={togglepassword} style={{width:"20px"}} > {icon ? (<Eye width="100%" height="100%" />) : (<Eyeslash width="100%" height="100%" />)}</span> */}
-            </div>   
-
-            {/* <div className="div-forgot-password">
-              <a className="forgot-password" href="/forgotpassword">
-                Forgot Password?
-              </a>
-            </div> */}
-
             <div className="control">
-              <button className="login" >
-              Submit
+              <button className="login" onClick={handleSubmit}>
+                Submit
               </button>
             </div>
-
-            {/* <div className="donthaveanaccounttext">Don't have an Account?</div>
-            <div className="control">
-              <button className="signup">
-                Sign Up
-              </button>
-            </div> */}
           </form>
         </div>
       </section>
     </div>
-  )
+  );
 }
 
-export default Forgotpassword
+export default Forgotpassword;

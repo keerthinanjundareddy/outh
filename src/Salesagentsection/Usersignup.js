@@ -10,13 +10,18 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 export default function UserSignUp() {
-    const [name, setName] = useState('');
-  const [email, setLogin] = useState('');
+    const [userTitle, setuserTitle] = useState('');
+  const [username, setusername] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setconfirmPassword] = useState('');
+  // const [confirmPassword, setconfirmPassword] = useState('');
   const [eyeicon, seteyeicon] = useState(true);
   const [eyelashicon, seteyelashicon] = useState(true);
+  const[error,setError]=useState('')
   const navigate = useNavigate(); // Use useNavigate instead of useHistory
+
+  const grant_type='password'
+  const client_id=null;
+  const client_secret=null;
 
   function togglepassword() {
     seteyeicon(!eyeicon);
@@ -27,24 +32,37 @@ export default function UserSignUp() {
     seteyelashicon(!eyelashicon);
   }
 
+  const validateEmail = (email) => {
+    // Use a regular expression for basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    let item = {name, email, password, confirmPassword };
+    let item = {userTitle,username, password,grant_type,client_id,client_secret };
+
+    if (!validateEmail(username)) {
+      window.alert('Invalid email address');
+      return;
+    }
+
 
     const headerObject = {
         'Content-Type':'application/json',
         "Accept":"*/*",
         // "Access-Control-Allow-Origin": "*",
       }
-    const SignUpApi = ' https://mountain-enshrined-axolotl.glitch.me/register';
+    const SignUpApi = ' https://chat-bot-taupe-one.vercel.app/auth/register';
 
     axios
       .post(SignUpApi, item, { headers: headerObject })
       .then((res) => {
         console.log("signupaai res",res);
-      
-
-        window.alert('You have successfully signed up!');
+      console.log("successmsg",res.data.message);
+      setError(res.data.message);
+      console.log("Error state after setting:", error);
+        window.alert(res.data.message);
         navigate('/'); // Use navigate instead of history.push
       })
       .catch((err) => {
@@ -57,9 +75,10 @@ export default function UserSignUp() {
       });
   };
 
-  const goToSignInPage = () => {
-    navigate('/');
-  };
+  const loginhandle = () =>{
+    navigate('/')
+  }
+
 
   return (
     <>
@@ -80,7 +99,7 @@ export default function UserSignUp() {
             </div>
             <div className="control">
               <input
-                type="email"
+                type="text"
                 className="email-input"
                 onFocus={(e) => {
                   e.preventDefault();
@@ -89,9 +108,9 @@ export default function UserSignUp() {
               
                
                 placeholder="Enter Your name"
-                value={name}
+                value={userTitle}
                 onChange={(e) => {
-                  setName(e.target.value);
+                  setuserTitle(e.target.value);
                 }}
               />
               <img src={person} alt="padlock" className="Email-icon" />
@@ -109,11 +128,12 @@ export default function UserSignUp() {
                 className="email-input"
             
                 placeholder="Enter Your Email id"
-                value={email}
+                value={username}
                 onChange={(e) => {
-                  setLogin(e.target.value);
+                  setusername(e.target.value);
                 }}
               />
+                <div>{error}</div>
               <img src={Email} alt="padlock" className="Email-icon" />
             </div>
 
@@ -121,11 +141,12 @@ export default function UserSignUp() {
               <label className="texttwo">Password</label>
             </div>
             <div className='control'>
-                <input type={eyeicon?("password"):("text")} className='password-input' placeholder="Enter your password" value={password} onChange={(e) => {setPassword(e.target.value)}}   />
+                <input type={eyeicon?("password"):("text")} className='password-input' placeholder="Enter your password" value={password}  onChange={(e) => {setPassword(e.target.value)}}    />
                 <img src={vector}  alt="padlock" className='password-icon' />
-                <span className='password-show-icon-two' alt="padlock"  onClick={togglepassword} style={{width:"20px",height:"20px",objectFit:"contain"}} > {eyeicon ? (<Eye width="100%" height="100%" />) : (<Eyeslash width="100%" height="100%" />)}</span>
+                <span className='password-show-icon-two' alt="padlock"  onClick={togglepassword}  style={{width:"20px"}}  > {eyeicon ? (<Eye width="100%" height="100%" />) : (<Eyeslash width="100%" height="100%" />)}</span>
             </div>
-
+    
+        <div style={{color:"red"}}>{error}</div>
 
             {/* <div className='controls'>
                 <label className='texttwo'>Confirm Password</label>
@@ -145,11 +166,11 @@ export default function UserSignUp() {
               </div>
 
               <div className="donthaveanaccounttext">
-                Already have an Account
+                Already have an Account?
               </div>
 
               <div className="controlSIGNUP">
-                <button className="loginSIGNUP" onClick={goToSignInPage}>
+                <button className="loginSIGNUP" onClick={loginhandle} >
                   Login
                 </button>
               </div>

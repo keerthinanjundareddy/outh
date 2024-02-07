@@ -4,9 +4,11 @@ import persontwo from '../Assets/person.png';
 import hamburger from '../Assets/hamburger-menu-icon-png-white-18 (1).jpg';
 import Funding from '../Assets/Funding.png'
 import close from '../Assets/icons8-close-window-50.png';
+import logout from '../Assets/logout, exit, sign, out 1.png'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-function Salesagentdashboard() {
+function Salesagentdashboard({ handleLogout }) {
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [chats, setChats] = useState([]);
@@ -85,8 +87,12 @@ function Salesagentdashboard() {
     }
   };
   
-  
 
+  const navigate= useNavigate();
+
+
+  
+ 
  
   
 
@@ -230,6 +236,11 @@ function Salesagentdashboard() {
     }
   };
 
+  const logoutHandler = () => {
+    // Call the handleLogout function passed as a prop
+    handleLogout();
+  };
+
   return (
     <>
       <div className={`navbar ${inputFocused ? 'navbar-focused' : ''}`}>
@@ -255,7 +266,10 @@ function Salesagentdashboard() {
 
 
         <div className='clear-chat-parent-div'>
-        <div className='new-chat-div-two' >logout</div>
+          <div className='new-chat-div-two' onClick={logoutHandler} style={{display:"flex",flexDirection:"row",gap:"2px"}} >
+        <div>logout</div>
+        <div style={{width:"20px",height:"20px"}}><img src={ logout} alt="shareicon" style={{width:"100%",height:"100%",objectFit:"contain"}} /></div>
+        </div>
           <div className='new-chat-div'  onClick={() => clearConversation()}  >
             + New Chat
           </div>
