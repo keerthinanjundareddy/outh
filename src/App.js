@@ -11,7 +11,7 @@ function App() {
   const [emailVerified, setEmailVerified] = useState(false); 
 
   useEffect(() => {
-    // Check authentication status here, e.g., by looking at a token in local storage
+    // Checking  authentication status over here, checking by looking at a token in local storage
     const userToken = localStorage.getItem('accessToken');
     if (userToken) {
       setIsAuthenticated(true);
