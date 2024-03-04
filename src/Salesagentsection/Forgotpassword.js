@@ -5,11 +5,22 @@ import { useNavigate } from 'react-router-dom';
 
 function Forgotpassword({ setEmailVerified }) {
   const [email, setEmail] = useState('');
-  const [userId, setUserId] = useState(null); // State to store the received user ID
+  const [userId, setUserId] = useState(null); 
+  const[errmsg,setErrmsg]=useState('');
+  // State to store the received user ID
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+   
+      // Frontend validation: Check if email is empty
+      if (!email.trim()) {
+        setErrmsg('Email cannot be empty.');
+        return;
+      } else {
+        setErrmsg(''); // Clear the frontend error when the email is not empty
+      }
 
     let item = { email };
 
@@ -23,7 +34,7 @@ function Forgotpassword({ setEmailVerified }) {
     axios
       .post(forgotPasswordApi, item, { headers: headerObject })
       .then((res) => {
-        window.alert(res.data.message);
+        // window.alert(res.data.message);
         setUserId(res.data.userID); 
         console.log("userid", res.data.userID); // Save the received user ID in state
 
@@ -34,7 +45,11 @@ function Forgotpassword({ setEmailVerified }) {
       })
       .catch((err) => {
         console.log("errors", err);
-        window.alert("Please enter a valid email");
+        if (err.response) {
+          
+            setErrmsg('User with the given email does not exist.');
+          
+        }
       });
   };
 
@@ -61,6 +76,7 @@ function Forgotpassword({ setEmailVerified }) {
               />
               <img src={Emails} alt="padlock" className="Email-icon" />
             </div>
+             {errmsg && <div style={{ color: 'red', fontSize: '12px' }}>{errmsg}</div>}
 
             <div className="control">
               <button className="login" onClick={handleSubmit}>

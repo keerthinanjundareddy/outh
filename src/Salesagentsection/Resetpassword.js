@@ -12,6 +12,8 @@ function Resetpassword() {
   const [eyelashicons, seteyelashicon] = useState(true);
   const [passwords, setPassword] = useState('');
   const [confirmPasswords, setconfirmPassword] = useState('');
+  const[passerr,setPasserr]=useState('');
+  const[confpasserr,setconfPasserr]=useState('');
   const navigate = useNavigate();
   const { userID } = useParams(); // Use useParams to get the user ID from the URL
 
@@ -28,13 +30,30 @@ function Resetpassword() {
 
     // Check if passwords match
     if (passwords !== confirmPasswords) {
-      window.alert("Passwords do not match");
+      setPasserr("Passwords are not matching");
+      setconfPasserr("Passwords are not matching");
       return;
     }
 
+    if(!passwords.trim()){
+      setPasserr("password cannot be empty");
+      return;
+    } else {
+      setPasserr(''); // Clear the frontend error when the username is not empty
+    }
+
+
+    if(!confirmPasswords.trim())
+    {
+      setconfPasserr("confirmpassword cannot be empty");
+      return;
+    }
+    else{
+      setconfPasserr('')
+    }
     console.log("resetuserId", userID)
 
-    // Prepare the data for the API request
+   
     const requestData = {
       password: passwords,
       confirmPassword: confirmPasswords,
@@ -42,7 +61,7 @@ function Resetpassword() {
 
 
     // console.log("userId",userId)
-    // Make the API request using Axios
+   
     axios
       .post(`https://chat-bot-taupe-one.vercel.app/auth/reset-password/${userID}`, requestData, {
         headers: {
@@ -51,12 +70,12 @@ function Resetpassword() {
       })
       .then((res) => {
         console.log("reset reseult",res)
-        window.alert("password saved succesfully");
+        // window.alert("password saved succesfully");
         navigate('/'); // Change the route based on your application
       })
       .catch((err) => {
-        console.error('Error resetting password:', err);
-        window.alert('Error resetting password. Please try again.');
+        // console.error('Error resetting password:', err);
+        // window.alert('Error resetting password. Please try again.');
       });
   };
 
@@ -75,6 +94,7 @@ function Resetpassword() {
               <img src={vector} alt="padlock" className='password-icon' />
               <span className='password-show-icon' alt="padlock" onClick={togglepassword} style={{ width: "20px", zIndex: "100" }}> {eyeicons ? (<Eye width="100%" height="100%" />) : (<Eyeslash width="100%" height="100%" />)}</span>
             </div>
+            <label style={{color:"red",fontSize:"12px"}}>{passerr}</label>
 
             <div className='control' style={{ marginTop: "20px" }}>
               <label className='texttwo' >Confirm Password</label>
@@ -84,6 +104,7 @@ function Resetpassword() {
               <img src={vector} alt="padlock" className='password-icon' />
               <span className='password-show-icon' alt="padlock" onClick={toggleconfirmpassword} style={{ width: "20px", zIndex: "100" }}> {eyelashicons ? (<Eye width="100%" height="100%" />) : (<Eyeslash width="100%" height="100%" />)}</span>
             </div>
+            <label style={{color:"red",fontSize:"12px"}} >{confpasserr}</label>
 
             <div className="signupbuttons">
               <div className="controlSIGNUP">

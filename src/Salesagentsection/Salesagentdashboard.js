@@ -1,14 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './Salesagentdashboard.css';
-import persontwo from '../Assets/person.png';
-import hamburger from '../Assets/hamburger-menu-icon-png-white-18 (1).jpg';
-import Funding from '../Assets/Funding.png'
-import close from '../Assets/icons8-close-window-50.png';
-import logout from '../Assets/logout, exit, sign, out 1.png'
+// import persontwo from '../Assets/person.png';
+import hamburger from '../Assets/3.png';
+// import Funding from '../Assets/Funding.png'
+import close from '../Assets/row2.png';
+import closetwo from '../Assets/row2.png'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import logout from '../Assets/logout, exit, sign, out 1.png'
 
-function Salesagentdashboard({ handleLogout }) {
+function Newbot({ handleLogout }) {
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [chats, setChats] = useState([]);
@@ -24,6 +24,33 @@ function Salesagentdashboard({ handleLogout }) {
   const [apiResponse, setApiResponse] = useState([]); // Maintain the order of questions
   const [waitingForResponse, setWaitingForResponse] = useState(false);
   const [loadingResponse, setLoadingResponse] = useState(false);
+  const [showemployeePopup, setShowemployeePopup] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+
+const [sourceDocuments, setSourceDocuments] = useState([]);
+const popupRef = useRef(null);
+
+const [sourceDocumentsMap, setSourceDocumentsMap] = useState({});
+
+const [showPopup, setShowPopup] = useState(false);
+  const [popupContent, setPopupContent] = useState('');
+
+  const handleButtonClick = (documents) => {
+    setPopupContent(`<ul style="margin: 5px 0; list-style-type: decimal;">${documents.map((document) => `<li style="padding-top: 10px;">${document.page_content}</li>`).join('')}</ul>`);
+
+
+
+   console.log("popupcontanet",popupContent)
+    setShowPopup(true);
+  };
+  
+
+  const closePopup = () => {
+    setShowPopup(false);
+    setPopupContent('');
+  };
+
 
 
   const handleInputChange = (e) => {
@@ -87,31 +114,22 @@ function Salesagentdashboard({ handleLogout }) {
     }
   };
   
-
-  const navigate= useNavigate();
-
-
-  
- 
- 
   
 
+ 
   const sendMessage = () => {
-    if (userInput.trim() === '' || waitingForResponse) return; // Disable sending if no input or waiting for a response
-
+    if (userInput.trim() === '' || waitingForResponse) return;
+  
     setWaitingForResponse(true);
     setLoadingResponse(true);
-  
   
     const newMessage = {
       text: userInput,
       timestamp: new Date().toLocaleTimeString(),
     };
   
-    // Add the new message to the current chat
     setMessages([...messages, newMessage]);
   
-    // If there is a current question, update its message history
     if (currentQuestion) {
       setCurrentQuestion(userInput);
       setQuestionOrder([...questionOrder, userInput]);
@@ -128,41 +146,56 @@ function Salesagentdashboard({ handleLogout }) {
         [userInput]:[newMessage], // Create a new question with the first message
       }));
     }
-  
     setUserInput('');
-
-
-  const querys = userInput;
+    
+ 
   
-  console.log("query",querys)// Use the value from the input field as the query
+
+
+    const querys = userInput;
+
+    const existingResponse = apiResponse[querys];
+    
+    if (existingResponse) {
+      // If the response for the current question is already available, use it
+      setUserInput(''); 
+      setLoadingResponse(false);
+      setWaitingForResponse(false);
+// Clear userInput when the question is the same
+      return;
+    }
+  
+    
+    console.log("query",querys)
 
     const requestBody = {
-      query: querys
+      question:  querys
     };
-
-    console.log("requestBody",requestBody)
-    // Make an API request
+  
     const headerObject = {
-      'Content-Type':'application/json',
-      "Accept":"*/*",
-      }
-      
-    
-    
-    
-   
+      'Content-Type': 'application/json',
+      Accept: '*/*',
+    };
+  
     const dashboardsApi = "http://document-qa.apprikart.com/api/rag.qa_chain/run";
-
-    axios.post( dashboardsApi,requestBody,{headers: headerObject})
+  
+    axios.post(dashboardsApi, requestBody, { headers: headerObject })
       .then((response) => {
         console.log("API Response:", response);
-   
-        console.log("responsedata",response.data.output)
-        const answer = response.data.output;
-        console.log('Responseanswer:', answer);
+        const responseData = response.data.result;
+        console.log("responsedata",responseData)
+ 
+        const answer = responseData;
+  
         setApiResponse((prevResponse) => ({
           ...prevResponse,
           [querys]: answer,
+        }));
+  
+        setSourceDocuments(response.data.source_documents || []);
+        setSourceDocumentsMap((prevDocuments) => ({
+          ...prevDocuments,
+          [querys]: response.data.source_documents,
         }));
         setLoadingResponse(false);
       })
@@ -170,14 +203,17 @@ function Salesagentdashboard({ handleLogout }) {
         console.log("error", err);
         setApiResponse((prevResponse) => ({
           ...prevResponse,
-          [querys]:"Internal Server Error",
+          [querys]: "Internal Server Error",
         }));
         setLoadingResponse(false);
       })
       .finally(() => {
+        // setLoadingResponse(false);
         setWaitingForResponse(false);
       });
-    };
+ 
+  };
+  
   
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -236,10 +272,31 @@ function Salesagentdashboard({ handleLogout }) {
     }
   };
 
+
+
   const logoutHandler = () => {
     // Call the handleLogout function passed as a prop
     handleLogout();
   };
+
+
+
+  const closePopupOutsideClick = (e) => {
+    // Check if the click occurred outside the popup container
+    if (showPopup && popupRef.current && !popupRef.current.contains(e.target)) {
+      closePopup();
+    }
+  };
+
+  useEffect(() => {
+    // Add event listener for mousedown on the entire document
+    document.addEventListener('mousedown', closePopupOutsideClick);
+
+    // Remove the event listener when the component is unmounted
+    return () => {
+      document.removeEventListener('mousedown', closePopupOutsideClick);
+    };
+  }, [showPopup]);
 
   return (
     <>
@@ -250,23 +307,21 @@ function Salesagentdashboard({ handleLogout }) {
             {/* <img src={Funding} alt="funding-icon" style={{width:"40px",height:"40px"}} /> */}
             </div>
             <div style={{color:"#21261B",fontWeight:"600",letterSpacing:"0.5px"}} className='document-text'>
-             CHATBOT
+            SALES COACH ASSISTANT
             </div>
           </div>
           <div className='hamburger-button' onClick={hamburgerclose}>
             <img
               src={hamburger}
               alt="hamburger-icon"
-              style={{ width: '60px', height: '60px' }}
+              style={{ width: '40px', height: '40px' }}
               className='hamburger-icon'
             />
           </div>
         </div>
 
-
-
         <div className='clear-chat-parent-div'>
-          <div className='new-chat-div-two' onClick={logoutHandler} style={{display:"flex",flexDirection:"row",gap:"2px"}} >
+        <div className='new-chat-div-two' onClick={logoutHandler} style={{display:"flex",flexDirection:"row",gap:"2px"}} >
         <div>logout</div>
         <div style={{width:"20px",height:"20px"}}><img src={ logout} alt="shareicon" style={{width:"100%",height:"100%",objectFit:"contain"}} /></div>
         </div>
@@ -279,15 +334,15 @@ function Salesagentdashboard({ handleLogout }) {
             }`}
             onClick={toggleMobileSidebar}
           >
-            <img
-              src={persontwo}
+            {/* <img
+              // src={persontwo}
               alt='person-icon'
               style={{
                 width: '100%',
                 height: '100%',
                 objectFit: 'contain',
-              }}
-            />
+              }} */}
+            {/* /> */}
           </div>
         </div>
       </div>
@@ -302,39 +357,41 @@ function Salesagentdashboard({ handleLogout }) {
               className={`chat-title ${
                 selectedChatTitle === 'New Chat' ? 'selected' : ''
               }`}
-              // onClick={() => selectChat('New Chat')}
+            
               style={{textAlign:"center"}}
              >
-              Question history
+             Chat History
             </div>
             {/* </div> */}
           
             <div onClick={hamburgerdisappearing} className='hamburgerdisappearingicon'>
-              <img src={close} alt="close-icon" style={{ width: "40px", height: "40px" }} />
+              <img src={close} alt="close-icon" style={{ width: "20px", height: "20px",marginTop:"2px"}} />
             </div>
             
             </div>
             {/* <div className='clear-chat-button' onClick={() => clearQuestionHistory()}  style={{textAlign:"center",border:"1px solid white",width:"50%",marginLeft:"25%"}}>
   Clear Chat
 </div> */}
-            <div className='question-section' style={{flexBasis:"100%"}}>
-            {questionOrder.map((question, index) => (
-              <li
-                key={index}
-                // style={{padding:"10px",margin:"5px",cursor:"pointer"}}
-                className={`chat-title ${
-                  question === selectedChatTitle ? 'selected' : ''
-                }`}
-                onClick={() => {
-                  // selectChat(question);
-                  hamburgerdisappearing();
-                }}
-                style={{ padding: "5px" ,borderRadius:"5px",backgroundColor:"#191C14",marginTop:"10px",marginLeft:"10px",marginRight:"10px"}}
-               >
-                {question}
-              </li>
-            ))}
-          </div>
+          <div className='question-section' style={{ flexBasis: "100%" }}>
+  {questionOrder.map((question, index) => (
+    index === 0 && (
+    
+      <li
+        key={index}
+        className={`chat-title ${question === selectedChatTitle ? 'selected' : ''}`}
+        onClick={() => {
+          // selectChat(question);
+          hamburgerdisappearing();
+        }}
+        style={{ padding: "5px", borderRadius: "5px", backgroundColor: "#191C14", marginTop: "10px", marginLeft: "10px", marginRight: "10px",   }}
+      >
+        {question}
+      </li>
+     
+    )
+  ))}
+</div>
+
          
         </div>
       </div>
@@ -352,7 +409,7 @@ function Salesagentdashboard({ handleLogout }) {
                       {/* <div className='chatbot-time-div'>{message.timestamp}</div> */}
                     </div>
                     <div className='chatbot-output-div'>
-                        hi,How can i assist you Today?
+                    Hi,is there something specific you're looking for?
                    </div>
       
                   </div>
@@ -368,7 +425,10 @@ function Salesagentdashboard({ handleLogout }) {
                       <div className='user-name-div'>USER</div>
                       {/* <div className='user-time-div'>{message.timestamp}</div> */}
                     </div>
+                    <div style={{display:"flex",flexDirection:"column"}}>
                     <div className='user-question-div'>{message.text}</div>
+                 
+                    </div>
                   </div>
                   <div className='user-parent-output-div'>
                     <div className='user-timestamp-parent-div-two'>
@@ -376,9 +436,48 @@ function Salesagentdashboard({ handleLogout }) {
                       {/* <div className='chatbot-time-div'>{message.timestamp}</div> */}
                     </div>
                     <div className='chatbot-output-div'>
-                    {loadingResponse && message.text === currentQuestion ?  <span className="loading-dots" /> : apiResponse[message.text] || ''}
-
+                    {loadingResponse && message.text === currentQuestion ? (<span className="loading-dots" />) :(
+    <>
+    {apiResponse[message.text] || ''}
+    {sourceDocumentsMap[message.text]?.length > 0 && (
+      <div>
+        <div onClick={() => handleButtonClick(sourceDocumentsMap[message.text])} style={{color:"#3E4733"}} className='view-sources-txt'>
+       View sources
         </div>
+      </div>
+    )}
+  </>
+)}
+
+
+ {showPopup && (
+  <>
+     
+<div className="backdrop-blur" onClick={closePopup}   />
+
+       <div className="popup-container"   ref={popupRef} >
+          <div className="popup-content" style={{display:"flex",flexDirection:"column",}} >
+            <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+              
+            <div></div>
+            {/* <div className="close-button"  onClick={closePopup}>
+           <img src={closetwo }  style={{paddingTop:"10px",paddingRight:"10px",width:"30px",height:"30px"}} alt="close-icon" className='close-section-popup'/>
+            </div> */}
+            </div>
+            <div style={{color:"black",textAlign:"center"}} className='source-text'>Sources</div>
+          <div className="popup-content-text" dangerouslySetInnerHTML={{ __html: popupContent }}></div>
+            {/* <button onClick={closePopup}>Close Popup</button> */}
+          </div>
+          <div className='popup-close-btn'>
+          <div className='popup-close-buttons'  onClick={closePopup}>Close</div>
+          </div>
+        </div>
+        </>
+      )}
+        </div>
+        
+        {/* <div onClick={() => handleMoreLinkClick(apiResponse[message.text] || '')}>more</div> */}
+
                   </div>
                 </div>
               </div>
@@ -386,19 +485,25 @@ function Salesagentdashboard({ handleLogout }) {
           </div>
           <div className='user-input'>
             <input
+            className='down-input-text'
               type='text'
               placeholder='Type your message..'
               value={userInput}
               onChange={handleInputChange}
               onKeyDown={handleInputKeyPress}
-              style={{fontFamily:"Sora, sans-serif"}}
+              style={{fontFamily:"Sora, sans-serif",border:"1px solid black", }}
                 />
             <button onClick={sendMessage} disabled={waitingForResponse}>Send</button>
           </div>
         </div>
       </div>
+
+
+
+
+
     </>
   );
 }
 
-export default Salesagentdashboard;
+export default Newbot;

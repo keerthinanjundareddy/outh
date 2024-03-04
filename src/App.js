@@ -21,23 +21,22 @@ function App() {
   }, []);
 
   const handleLogout = () => {
-    // Assuming accessToken is stored in localStorage
+    //  accessToken is stored in localStorage
     const accessToken = localStorage.getItem('accessToken');
 
     // Display an alert
-    window.alert("Logout successful");
+    // window.alert("Logout successful");
 
     // Remove the accessToken from localStorage
     localStorage.removeItem('accessToken');
 
-    // Set isAuthenticated to false immediately
+    // Set isAuthenticated to false 
     setIsAuthenticated(false);
 
 
     setEmailVerified(false);
 
-    // Additional logic to redirect or perform other actions
-    // ...
+   
   };
 
   return (

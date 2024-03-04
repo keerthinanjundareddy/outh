@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import image from '../Assets/mdm_logo_original.jpeg';
+// import image from '../Assets/mdm_logo_original.jpeg';
 import vector from '../Assets/lock, security, protection, padlock, 3 1.png';
 import Email from '../Assets/email 1 (1).png';
 import { ReactComponent as Eye } from '../Assets/shows.svg';
@@ -13,7 +13,9 @@ export default function UserSignin({ setIsAuthenticated}) {
   const [username, setusername] = useState('');
   const [password, setPassword] = useState('');
   const [icon, seticon] = useState(true);
-  const navigate = useNavigate(); // Use useNavigate instead of useHistory
+  const[emailmessage,setEmailmessage]=useState("")
+  const[passwordMessage,setPasswordMessage]=useState("")
+  const navigate = useNavigate(); 
 
   function togglepassword() {
     seticon(!icon);
@@ -23,7 +25,24 @@ export default function UserSignin({ setIsAuthenticated}) {
 
   function handleSubmit(e) {
     e.preventDefault();
+
+
+     if (!username.trim()) {
+      setEmailmessage('EmailId cannot be empty'); // Frontend error for empty username
+      return;
+    } else {
+      setEmailmessage(''); // Clear the frontend error when the username is not empty
+    }
     
+
+    if (!password.trim()) {
+      setPasswordMessage('Password cannot be empty'); // Frontend error for empty username
+      return;
+    } else {
+      setPasswordMessage(''); // Clear the frontend error when the username is not empty
+    }
+    
+
     const details = {
       username: username,
       password: password,
@@ -38,36 +57,56 @@ export default function UserSignin({ setIsAuthenticated}) {
 
       console.log("formBody",formBody)
   
-    // Send the request with content-type set to x-www-form-urlencoded
+ 
     axios.post('https://chat-bot-taupe-one.vercel.app/auth/login', formBody, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       },
     })
     .then((res) => {
-      console.log("data",res);
-      // Store the access token securely (e.g., in localStorage)
+      // console.log("data",res);
+      // Store the access token 
       const accessToken = res.data.access_token;
-      console.log("accesstoken",accessToken)
+      // console.log("accesstoken",accessToken)
       localStorage.setItem('accessToken', accessToken);
 
-      window.alert("success");
+      // window.alert("success");
 
       setIsAuthenticated(true);
-      // Redirect to a protected route or update the UI
-      // For example, you can navigate to the dashboard
-      navigate('/chatbot'); // Use navigate instead of changing window.location.href
+      
+      navigate('/chatbot'); // Use navigate 
     })
-    .catch((error) => {
-      console.error('Login failed:', error.response.data.error);
-      window.alert("Invalid username or password")
-      // Handle login error, show an error message, etc.
+    .catch((err) => {
+      // console.log("siginerror",err)
+      if (err.response.data === "User with given email doesn't exist") {
+        setEmailmessage(err.response.data);
+      } 
+      else if (err.response.data === '"username" must be a valid email') {
+        setEmailmessage(
+          "enter valid email"
+        )
+        }
+      else if (err.response.data === "Invalid password") {
+        setPasswordMessage(
+          err.response.data
+        )
+        }
+        else {
+        // Handle other types of errors or set a generic error message
+        setEmailmessage("");
+        setPasswordMessage("")
+      }
     });
   }
 
   const handlleSignup = () =>{
     navigate('/UserSignUp')
   }
+
+  const handlePassword = () =>{
+    navigate('/forgotpassword')
+  }
+
 
 
   return (
@@ -96,13 +135,15 @@ export default function UserSignin({ setIsAuthenticated}) {
                 }}
               />
               <img src={Email} alt="padlock" className="Email-icon" />
+           
             </div>
+            <label style={{color:"red",fontSize:"12px"}}>{emailmessage}</label>
 
             <div className="controls">
               <label className="texttwo">Password</label>
             </div>
             <div className='control'>
-                <input type={icon?("password"):("text")}className='password-input'      onFocus={(e) => {
+                <input type={icon?("password"):("text")} className='password-input'  onFocus={(e) => {
                   e.preventDefault();
                   // Handle focus event
                 }}   placeholder="Enter Your Password" value={password} onChange={(e) => {setPassword(e.target.value)}} />
@@ -110,12 +151,14 @@ export default function UserSignin({ setIsAuthenticated}) {
                 <img src={vector}  alt="padlock" className='password-icon' />
                 
                 <span className='password-show-icon' alt="padlock"  onClick={togglepassword} style={{width:"20px"}} > {icon ? (<Eye width="100%" height="100%" />) : (<Eyeslash width="100%" height="100%" />)}</span>
+               
             </div>   
+            <label style={{color:"red",fontSize:"12px"}}>{passwordMessage}</label>
 
             <div className="div-forgot-password">
-              <a className="forgot-password" href="/forgotpassword">
+              <div className="forgot-password" onClick={handlePassword} >
                 Forgot Password?
-              </a>
+              </div>
             </div>
 
             <div className="control">

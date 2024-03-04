@@ -1,20 +1,22 @@
 /* ChatApp.css */
-/* @import url('https://fonts.googleapis.com/css2?family=Inter&family=Sora&display=swap'); */ 
-
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Sora&display=swap');
-
-
-
-
-
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Sora&display=swap');
 body{
     background-color:  #ffffff !important;
     font-family: 'Sora', sans-serif;
     /* height:100vh; */
     /* width:100%; */
   }
+ 
+
+
+  input[type="text"].down-input-text::placeholder {
+    color: black !important;
+    font-weight: 500;
+  }
+  
+
   ::placeholder {
-  color: #000000 !important;
+  /* color: #000000 !important; */
   font-family:'Sora', sans-serif ;
   font-weight: 400;
 }
@@ -264,15 +266,13 @@ body{
       padding-bottom: 10px;
       margin-top: 5px;
       margin-bottom: 5px;
-    
+     
     
     }
     .new-chat-div-two{
-      
       border:1px solid #e9ede6;
-      color: #000000;
-      background-color:#e9ede6; ;
-   
+      color: #21261B;
+      background-color:#e9ede6;
       
       border-radius: 10px;
       /* padding: 10px; */
@@ -283,8 +283,6 @@ body{
       margin-top: 5px;
       margin-bottom: 5px;
       cursor: pointer;
-
-    
     
     }
     .user-parent-div{
@@ -362,14 +360,15 @@ body{
       text-overflow: ellipsis;
     }
     .user-question-div{
-      font-size: 1.2em;
+      font-size:18px;
       color: black;
       padding-left: 50px;
     }
     .chatbot-output-div{
-      font-size: 1.2em;
+      font-size: 18px;
       color: black;
       padding-left: 55px;
+      text-align: left;
     }
     .chat-name-div{
       /* border:1px solid pink; */
@@ -467,6 +466,10 @@ body{
   justify-content: center;
 }
 
+.more-text{
+  cursor:pointer;
+}
+
     @media (max-width: 400px) {
       .message {
         max-width: 100%; /* Set a maximum width for messages on smaller screens */
@@ -479,6 +482,22 @@ body{
 
 
     @media (max-width: 767px) {
+
+      .popup-content-text{
+        padding-top:10px ;
+      
+        padding-left:10px !important;
+        padding-right:10px !important;
+      }
+      .popup-title{
+        padding-top:10px ;
+       padding-bottom:50px ;
+        padding-left:10px !important;
+        padding-right:10px !important;
+      }
+      
+
+
       .nav-topsec{
         justify-content: space-between;
       }
@@ -584,9 +603,6 @@ body{
       .inner-chat-paarent-div{
         display: none !important;
       }
-
-
-      /* chatbornavbar  */
       .new-chat-div{
         border:1px solid #D2EBB9;
         color: #21261B;
@@ -607,7 +623,7 @@ body{
       .new-chat-div-two{
         border:1px solid #e9ede6;
         color: #000000;
-        background-color:#e9ede6; ;
+        background-color:#e9ede6; 
      
         
         border-radius: 5px;
@@ -619,10 +635,15 @@ body{
         margin-top: 5px;
         margin-bottom: 5px;
         cursor:none;
-      
-      
       }
+      .more-text{
+        cursor:none;
+      }
+
+
+      /* popup css */
       
+     
     }
 
     @media (min-width: 767px) {
@@ -670,7 +691,241 @@ body{
       }
       
     
+      .popup-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 100 !important; 
+        /* border:1px solid rgb(6, 5, 5); */
+        background-color:white;
+        border-radius: 10px;
+        height:80vh;
+        overflow-y: scroll;
+        width:80vh;
+
+        
+        /* padding:100px; */
+        /* Ensure the popup is above other content */
+        /* Additional styling properties */
+      }
+
+
+      .popup-content-text{
+        font-size: 15px;
+        border-top:1px solid #E6E6E6;
+        border-bottom:1px solid #E6E6E6;
+       
+        height:60vh;
+        overflow-y: auto;
+      
+      }
+
+      .popup-container::-webkit-scrollbar {
+        width: 4px; /* Set the width of the scrollbar */
+      }
+      
+      .popup-container::-webkit-scrollbar-track {
+        background: transparent; /* Make the track transparent */
+      }
+      
+      /* Style the custom scrollbar thumb (optional) */
+      .popup-container::-webkit-scrollbar-thumb {
+        background: #E6E6E6;; /* Set the color of the scrollbar thumb */
+      }
+      
+      /* Style the custom scrollbar thumb on hover (optional) */
+      .popup-container::-webkit-scrollbar-thumb:hover {
+        background: #E6E6E6;; /* Change color on hover */
+      }
+
+
+
+      .popup-content-text::-webkit-scrollbar {
+        width: 4px;
+        height:4px !important; /* Set the width of the scrollbar */
+      }
+      
+      .popup-content-text::-webkit-scrollbar-track {
+        background: transparent; /* Make the track transparent */
+      }
+      
+      /* Style the custom scrollbar thumb (optional) */
+      .popup-content-text::-webkit-scrollbar-thumb {
+        height:4px !important; 
+        background: grey !important ; /* Set the color of the scrollbar thumb */
+      }
+      
+      /* Style the custom scrollbar thumb on hover (optional) */
+      .popup-content-text::-webkit-scrollbar-thumb:hover {
+        background:  grey !important; /* Change color on hover */
+      }
+
+      .span-border-class{
+       
+        padding-left:20px;
+        border-top: 1px solid red !important;
+        padding-top: 0px !important;
+        margin-bottom: 20px !important;
+      }
+      .backdrop-blur {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+        backdrop-filter: blur(1px); /* Apply blur effect */
+        z-index: 1; /* Ensure the backdrop is behind the popup */
+      }
+      .popup-content-text{
+        padding-top:10px ;
+      
+        padding-left:40px;
+        padding-right:40px ;
+        padding-bottom: 10px;
+      }
+      .source-text{
+        height:5vh;
+        padding-top:20px ;
+       
+      }
+      .popup-title{
+        padding-top:10px ;
+       padding-bottom:50px ;
+        padding-left:80px;
+        padding-right:80px ;
+      }
+      .popup-close-btn{
+        height:5vh;
+      }
+      .popup-close-buttons{
+        position: absolute;
+        bottom:10px;
+        right:10px;
+         border:1px solid #3E4733;
+         border-radius: 10px;
+         padding:5px;
+         width:60px;
+         font-size: 15px;
+       
+         background-color: #3E4733; 
+         color:white;
+         text-align: center;
+         cursor:pointer;
+      }
+
+      
+      
+      .close-section-popup{
+        cursor:pointer;
+      }
+      
+      .span-border-class{
+       
+        padding-left:20px;
+        border-top: 1px solid red !important;
+        padding-top: 0px !important;
+        margin-bottom: 20px !important;
+      }
+     
+      
+   
+      /* In your CSS file (e.g., Salesagentdashboard.css) */
+.popup-content p {
+  margin-bottom: 10px;
+}
+
+
+
+.view-sources-txt{
+  color:#3E4733 !important;
+  cursor:pointer;
+  padding:5px;
+  border:1px solid #dbdbdb;
+  text-align: center;
+  margin-top: 20px;
+  border-radius: 10px;
+ width:25%;
+  background-color: #DBDBDB;
+   font-size: 15px;
+ 
+}
+
+
+@media only screen and (max-width: 900px) {
+
+
+  .popup-content-text{
+    padding-top:10px ;
+  
+    padding-left:20px;
+    padding-right:20px ;
+    padding-bottom: 10px;
+  }
+
+  .popup-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100 !important; 
+    /* border:1px solid rgb(6, 5, 5); */
+    background-color:white;
+    border-radius: 10px;
+    height:80vh;
+    overflow-y: scroll;
+    width:40vh;
+
     
-    
-    
-    
+    /* padding:100px; */
+    /* Ensure the popup is above other content */
+    /* Additional styling properties */
+  }
+
+  
+}
+
+
+
+@media only screen and (min-width: 600px) and (max-width: 1024px) {
+  /* Styles for tablets */
+
+
+.view-sources-txt{
+  color:#3E4733 !important;
+  cursor:none;
+  padding:5px;
+  border:1px solid #dbdbdb;
+  text-align: center;
+  margin-top: 20px;
+  border-radius: 10px;
+ width:50%;
+  background-color: #DBDBDB;
+  color:#3E4733;
+}
+}
+
+
+@media (max-width: 599px) {
+
+  .view-sources-txt{
+    color:#3E4733 !important;
+    cursor:none;
+    padding:5px;
+    border:1px solid #dbdbdb;
+    text-align: center;
+    margin-top: 20px;
+    border-radius: 10px;
+   width:100%;
+    background-color: #DBDBDB;
+  }
+  }
+
+
+
+
+
+
+
+
