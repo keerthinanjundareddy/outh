@@ -47,9 +47,9 @@ function App() {
           <Route path="/UserSignUp" element={<UserSignUp />} />
           <Route path="/forgotpassword" element={<Forgotpassword setEmailVerified={setEmailVerified} />} />
           <Route
-  path="/resetpassword/:userID"
-  element={emailVerified ? <Resetpassword /> : <Navigate to="/forgotpassword" />}
-/>
+           path="/resetpassword/:userID"
+            element={emailVerified ? <Resetpassword /> : <Navigate to="/forgotpassword" />}
+            />
 
 
           {isAuthenticated ? (

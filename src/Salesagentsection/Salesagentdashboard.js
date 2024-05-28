@@ -5,8 +5,11 @@ import hamburger from '../Assets/3.png';
 // import Funding from '../Assets/Funding.png'
 import close from '../Assets/row2.png';
 import closetwo from '../Assets/row2.png'
+
 import axios from 'axios';
 import logout from '../Assets/logout, exit, sign, out 1.png'
+import AudioInput from './audioInput/AudioInput';
+import MicInput from './micInput/MicInput';
 
 function Newbot({ handleLogout }) {
   const [messages, setMessages] = useState([]);
@@ -177,7 +180,7 @@ const [showPopup, setShowPopup] = useState(false);
       Accept: '*/*',
     };
   
-    const dashboardsApi = "http://document-qa.apprikart.com/api/rag.qa_chain/run";
+    const dashboardsApi = "https://document-qa.apprikart.com/api/rag.qa_chain/run";
   
     axios.post(dashboardsApi, requestBody, { headers: headerObject })
       .then((response) => {
@@ -413,75 +416,54 @@ const [showPopup, setShowPopup] = useState(false);
                    </div>
       
                   </div>
-            {messages.map((message, index) => (
-              <div
-                key={index}
-                className='message'
-                >
-               
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}>
-                  <div className='user-parent-div'>
-                    <div className='user-timestamp-parent-div'>
-                      <div className='user-name-div'>USER</div>
-                      {/* <div className='user-time-div'>{message.timestamp}</div> */}
-                    </div>
-                    <div style={{display:"flex",flexDirection:"column"}}>
-                    <div className='user-question-div'>{message.text}</div>
-                 
-                    </div>
-                  </div>
-                  <div className='user-parent-output-div'>
-                    <div className='user-timestamp-parent-div-two'>
-                      <div className='chatbot-name-div'>BOT</div>
-                      {/* <div className='chatbot-time-div'>{message.timestamp}</div> */}
-                    </div>
-                    <div className='chatbot-output-div'>
-                    {loadingResponse && message.text === currentQuestion ? (<span className="loading-dots" />) :(
-    <>
-    {apiResponse[message.text] || ''}
-    {sourceDocumentsMap[message.text]?.length > 0 && (
-      <div>
-        <div onClick={() => handleButtonClick(sourceDocumentsMap[message.text])} style={{color:"#3E4733"}} className='view-sources-txt'>
-       View sources
+                  {messages.map((message, index) => (
+  <div key={index} className='message'>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}>
+      <div className='user-parent-div'>
+        <div className='user-timestamp-parent-div'>
+          <div className='user-name-div'>USER</div>
+          {/* <div className='user-time-div'>{message.timestamp}</div> */}
+        </div>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          {message.text ? (
+            <div className='user-question-div'>{message.text}</div>
+          ) : (
+            <div className='user-audio-div'>
+              {/* <span className='user-time-div'>{message.timestamp}</span> */}
+              <audio controls>
+                <source src={(message.audio)} type="audio/mpeg" />
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+          )}
         </div>
       </div>
-    )}
-  </>
-)}
-
-
- {showPopup && (
-  <>
-     
-<div className="backdrop-blur" onClick={closePopup}   />
-
-       <div className="popup-container"   ref={popupRef} >
-          <div className="popup-content" style={{display:"flex",flexDirection:"column",}} >
-            <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
-              
-            <div></div>
-            {/* <div className="close-button"  onClick={closePopup}>
-           <img src={closetwo }  style={{paddingTop:"10px",paddingRight:"10px",width:"30px",height:"30px"}} alt="close-icon" className='close-section-popup'/>
-            </div> */}
-            </div>
-            <div style={{color:"black",textAlign:"center"}} className='source-text'>Sources</div>
-          <div className="popup-content-text" dangerouslySetInnerHTML={{ __html: popupContent }}></div>
-            {/* <button onClick={closePopup}>Close Popup</button> */}
-          </div>
-          <div className='popup-close-btn'>
-          <div className='popup-close-buttons'  onClick={closePopup}>Close</div>
-          </div>
+      <div className='user-parent-output-div'>
+        <div className='user-timestamp-parent-div-two'>
+          <div className='chatbot-name-div'>BOT</div>
+          {/* <div className='chatbot-time-div'>{message.timestamp}</div> */}
         </div>
-        </>
-      )}
-        </div>
-        
-        {/* <div onClick={() => handleMoreLinkClick(apiResponse[message.text] || '')}>more</div> */}
-
+        <div className='chatbot-output-div'>
+          {loadingResponse && message.text === currentQuestion ? (
+            <span className="loading-dots" />
+          ) : (
+            <>
+              {apiResponse[message.text] || ''}
+              {sourceDocumentsMap[message.text]?.length > 0 && (
+                <div>
+                  <div onClick={() => handleButtonClick(sourceDocumentsMap[message.text])} style={{ color: "#3E4733" }} className='view-sources-txt'>
+                    View sources
                   </div>
                 </div>
-              </div>
-            ))}
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+))}
+
           </div>
           <div className='user-input'>
             <input
@@ -493,6 +475,10 @@ const [showPopup, setShowPopup] = useState(false);
               onKeyDown={handleInputKeyPress}
               style={{fontFamily:"Sora, sans-serif",border:"1px solid black", }}
                 />
+                <MicInput  messages={messages}
+                setMessages={setMessages}
+              />
+                <AudioInput/>
             <button onClick={sendMessage} disabled={waitingForResponse}>Send</button>
           </div>
         </div>
