@@ -1,0 +1,23 @@
+.container{
+    /* width: 100vw;*/
+    height: 85vh; 
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+}
+.chatbotCard{
+    /* border: 1px solid; */
+    width: 20%;
+    height: 15rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.301);
+}
+.chatbotCard img{
+    width: 70%;
+}

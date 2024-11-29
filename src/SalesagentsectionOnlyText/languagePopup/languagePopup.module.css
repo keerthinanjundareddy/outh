@@ -1,0 +1,26 @@
+.wrapper{
+    /* border: 1px solid; */
+    width: 100%;
+    height: 100vh;
+    z-index: 20;
+    backdrop-filter: blur(5px);
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.container{
+border: 1px solid;
+display: flex;
+flex-direction: column;
+gap: 40px;
+padding: 20px;
+border-radius: 7px;
+background-color: white;
+
+}
+.btnSection{
+    display: flex;
+    justify-content: space-around;
+
+}

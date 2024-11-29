@@ -74,7 +74,7 @@ export default function UserSignin({ setIsAuthenticated}) {
 
       setIsAuthenticated(true);
       
-      navigate('/select-chatbot'); // Use navigate 
+      navigate('/chatbot'); // Use navigate 
     })
     .catch((err) => {
       // console.log("siginerror",err)

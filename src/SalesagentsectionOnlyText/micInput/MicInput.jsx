@@ -14,33 +14,37 @@ const MicInput = ({ messages, setMessages, setApiResponse }) => {
     const formData = new FormData();
     formData.append('audio_file', audioBlob);
     formData.append('record_audio', true);
-  
+  ///api/rag.voice_chain/run
     try {
       const response = await axios.post('https://document-qa.apprikart.com/api/rag.voice_chain/run', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        responseType: 'blob', // Ensure the response is treated as a binary Blob
+         // Ensure the response is treated as a binary Blob
       });
-  
-      const audioBlob = new Blob([response.data], { type: 'audio/mpeg' });
-      const audioBlobUrl = URL.createObjectURL(audioBlob);
-  
-      setApiResponse((prevValue) => ({
-        ...prevValue,
-        [id]: audioBlobUrl,
-      }));
+      console.log(response.data)
+      const res = response.data.text
 
-      console.log('Upload Successful', response.data, audioBlobUrl);
+      const englishResponse = res.split('English Response:')[1].split('Hindi Response:')[0].trim();
+    const hindiResponse = res.split('Hindi Response:')[1].trim();
+      let result = {
+        english:englishResponse,
+        hindi:hindiResponse
+      }
+      setApiResponse((prevValue)=>({
+        ...prevValue,
+        [id]:result,
+      }))
+  
+      console.log('Upload Successful', response.data, res);
     } catch (error) {
       console.error('Error', error);
-      setApiResponse((prevValue) => ({
+      setApiResponse((prevValue)=>({
         ...prevValue,
-        [id]: "Internal Server Error",
-      }));
+        [id]:"Internal Server Error",
+      }))
     }
   };
-  
 
   
   const handleStartRecording = async () => {

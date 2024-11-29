@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Route, BrowserRouter as Router, Routes, Navigate } from 'react-router-dom';
 import Salesagentdashboard from './Salesagentsection/Salesagentdashboard';
+import SalesagentdashboardWithText from './SalesagentsectionOnlyText/SalesagentdashboardWithText';
 import UserSignin from './Salesagentsection/Usersignin';
 import UserSignUp from './Salesagentsection/Usersignup';
 import Forgotpassword from './Salesagentsection/Forgotpassword';
 import Resetpassword from './Salesagentsection/Resetpassword';
+import SelectPage from './selectPage/SelectPage';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -53,10 +55,18 @@ function App() {
 
 
           {isAuthenticated ? (
+          <>
+            <Route path="/select-chatbot" element={<SelectPage handleLogout={handleLogout} />} />
             <Route path="/chatbot" element={<Salesagentdashboard handleLogout={handleLogout} />} />
-          ) : (
+            <Route path="/chatbot-text" element={<SalesagentdashboardWithText handleLogout={handleLogout} />} />
+            </>
+          ) : ( 
             // Redirect to the sign-in page if not authenticated
+           <>
+            <Route path="/select-chatbot" element={<Navigate to="/" />} />
             <Route path="/chatbot" element={<Navigate to="/" />} />
+            <Route path="/chatbot-text" element={<Navigate to="/" />} />
+           </>
           )}
         </Routes>
       </div>
